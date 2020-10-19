@@ -28,7 +28,9 @@ namespace AddressBookPractice
             bool flag = true;
             while (flag)
             {
-                Console.WriteLine("\nEnter 1 to add New Address Book \nEnter 2 to Add Contacts \nEnter 3 to Edit Contacts \nEnter 4 to Delete Contacts\nEnter any other key to exit");
+                Console.WriteLine("\nEnter 1 to add New Address Book \nEnter 2 to Add Contacts \nEnter 3 to Edit Contacts " +
+                    "\nEnter 4 to Delete Contacts\nEnter 5 to search contact using city name" +
+                    "\nEnter 6 to search contact using state name\nEnter any other key to exit");
                 string options = Console.ReadLine();
                 switch (options)
                 {
@@ -43,6 +45,12 @@ namespace AddressBookPractice
                         break;
                     case "4":
                         DeleteContactsOfAddressBook();
+                        break;
+                    case "5":
+                        SearchContactWithCityName();
+                        break;
+                    case "6":
+                        SearchContactWithStateName();
                         break;
                     default:
                         flag = false;
@@ -134,7 +142,57 @@ namespace AddressBookPractice
                 addressBook.deleteContact();
             }
         }
+        private static void SearchContactWithCityName()
+        {
+            Console.WriteLine("\nEnter full name of the person!");
+            string personName = Console.ReadLine();
+            Console.WriteLine("\nEnter name of the city!");
+            string cityName = Console.ReadLine();
+            if (!cityToContactMapperGlobal.ContainsKey(cityName))
+            {
+                Console.WriteLine("No record found with such city name!");
+                return;
+            }
+            foreach (Contact contact in cityToContactMapperGlobal[cityName])
+            {
+                if ((contact.firstName + " " + contact.lastName) == personName)
+                {
+                    Console.WriteLine("Contact found!");
+                    Console.WriteLine("FirstName: " + contact.firstName + "\nLast Name :" + contact.lastName);
+                    Console.WriteLine("Address: " + contact.address + "\nCity: " + contact.city);
+                    Console.WriteLine("State: " + contact.state + "\nZip: " + contact.zip);
+                    Console.WriteLine("Phone Number: " + contact.phoneNumber + "\nEmail: " + contact.email);
+                    return;
+                }
+            }
+            Console.WriteLine($"No Contact Exist With This Name!");
+        }
+
+        private static void SearchContactWithStateName()
+        {
+            Console.WriteLine("\nEnter full name of the person!");
+            string personName = Console.ReadLine();
+            Console.WriteLine("\nEnter name of the state!");
+            string stateName = Console.ReadLine();
+            if (!stateToContactMapperGlobal.ContainsKey(stateName))
+            {
+                Console.WriteLine("No record found with this state name!");
+                return;
+            }
+            foreach (Contact contact in stateToContactMapperGlobal[stateName])
+            {
+                if ((contact.firstName + " " + contact.lastName) == personName)
+                {
+                    Console.WriteLine("Contact found!");
+                    Console.WriteLine("FirstName: " + contact.firstName + "\nLast Name :" + contact.lastName);
+                    Console.WriteLine("Address: " + contact.address + "\nCity: " + contact.city);
+                    Console.WriteLine("State: " + contact.state + "\nZip: " + contact.zip);
+                    Console.WriteLine("Phone Number: " + contact.phoneNumber + "\nEmail: " + contact.email);
+                    return;
+                }
+            }
+            Console.WriteLine($"No Contact Exist With This Name!");
+        }
     }
 }
-
 
