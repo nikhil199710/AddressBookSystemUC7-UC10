@@ -66,8 +66,30 @@ namespace AddressBookPractice
                 contact.state = _state;
                 contact.zip = _zip;
                 contact.phoneNumber = phone_number;
-                contact.email = _email; contactList.Add(contact);
-                contactFromDatabase.Add(contact.firstName, contact);
+                contact.email = _email;
+                this.contactList.Add(contact);
+                if (Program.cityToContactMapperGlobal.ContainsKey(contact.city))
+                {
+                    Program.cityToContactMapperGlobal[contact.city].Add(contact);
+                }
+                else
+                {
+                    List<Contact> list = new List<Contact>();
+                    list.Add(contact);
+                    Program.cityToContactMapperGlobal.Add(contact.city, list);
+                }
+
+                if (Program.stateToContactMapperGlobal.ContainsKey(contact.state))
+                {
+                    Program.stateToContactMapperGlobal[contact.state].Add(contact);
+                }
+                else
+                {
+                    List<Contact> list = new List<Contact>();
+                    list.Add(contact);
+                    Program.stateToContactMapperGlobal.Add(contact.state, list);
+                }
+                this.contactFromDatabase.Add(contact.firstName, contact);
                 Console.WriteLine("Contact created successfully with following details: ");
                 Console.WriteLine("FirstName: " + contact.firstName + "\nLast Name :" + contact.lastName);
                 Console.WriteLine("Address: " + contact.address + "\nCity: " + contact.city);
